@@ -1,0 +1,48 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AirLines</title>
+		<meta charset="utf-8">
+       	<link rel="stylesheet" href="{% static "static/css/style.css" %}" type="text/css" media="all">
+
+		<link rel="shortcut icon" href="{% static 'static/images/logotitle.png' %}" />
+	</head>
+	<body id="page1">
+		<div class="main">
+			<header>
+				<div class="wrapper">
+					<h1><a href="../home/" id="logo">AirLines</a></h1>
+					<nav id="top_nav">
+                        <section class="top-bar-section">
+                            <ul class="right">
+            {% if username %}
+                <li><a href="/auth/logout/">Log out ({{ username }})</a></li>
+            {% else %}
+                <li><a href="/auth/login/">Sign in</a></li>
+            {% endif %}
+                            </ul>
+                        </section>
+					</nav>
+				</div>
+				<nav>
+					{% block menu %}{% endblock %}
+				</nav>
+			</header>
+			<!-- / header -->
+			<!--content -->
+
+            {% block content %}{% endblock %}
+
+
+			<!--content end-->
+			<!--footer -->
+			<footer>
+				<div class="wrapper">
+					<div class="links">Copyright &copy; <a href="#">A&N</a> All Rights Reserved<br>
+					Design by <a href="http://www.vk.com/gaponenko_anton">Anton</a> and <a href="http://www.vk.com/nazarskiy">Nazar</a></div>
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

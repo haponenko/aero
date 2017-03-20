@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block menu%}
+    <ul id="menu">
+        <li><a href="\home/"><span><span>Home</span></span></a></li>
+        <li><a href="\book/"><span><span>Book</span></span></a></li>
+        <li id="menu_active"><a href="\articles/"><span><span>Comments</span></span></a></li>
+        <li><a href="\about/"><span><span>About</span></span></a></li>
+    </ul>
+{% endblock %}
+{% block content %}
+
+     <section id="content">
+     <div class="article">
+<p>{{ article.article_date }}</p>
+<h4>{{ article.article_title }}</h4>
+<p>{{ article.article_text }}</p>
+<hr>
+</div>
+<div class="large-offset-1 large-8 columns">
+<p><b>Comment:</b></p>
+{%  for comment in comments %}
+    <div class="comment">
+    <b>{{ comment.comments_text }}</b>
+    </div>
+{% endfor %}
+    {% if username %}
+    <form action="/articles/addcomment/{{ article.id }}/" method="post">
+    {% csrf_token %}
+    {{ form }}<br>
+    <input type="submit" class="button" value="Add comment">
+    </form>
+    {% else %}
+        <p><a href="/auth/login/">Sign in</a> to comment it!</p>
+    {% endif %}
+
+
+
+
+
+ </div>
+    </section>
+{%  endblock %}

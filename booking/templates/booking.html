@@ -1,0 +1,260 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AirLines</title>
+		<meta charset="utf-8">
+
+        <link href="{% static 'admin/css/forms.css' %}" type="text/css" media="all" rel="stylesheet" />
+        <link href="{% static 'admin/css/widgets.css' %}" type="text/css" media="all" rel="stylesheet" />
+
+        <link rel="stylesheet" href="{% static "static/css/style.css" %}" type="text/css" media="all">
+		<link rel="shortcut icon" href="{% static 'static/images/logotitle.png' %}" />
+
+        <script type="text/javascript" src="/admin/jsi18n/"></script>
+        <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+        <script type="text/javascript" src="{% static 'admin/js/calendar.js' %}"></script>
+        <script type="text/javascript" src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+        <script type="text/javascript" src="{% static 'static/js/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+        <script type="text/javascript" src="{% static 'static/js/ajax.jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'static/js/formvalidation.js' %}"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function(){
+               $("#id_country_out").change(function(){
+                  console.log('works');
+                  $.ajax({
+                    url : "{% url 'state_out_ajax' %}",
+                    type : "POST",
+                    data : {
+                      csrfmiddlewaretoken : "{{ csrf_token }}",
+                      country_id : $("#id_country_out").val()
+                      },
+
+                    dataType : 'json',
+
+                    success : function(data){
+                        $("#id_state_out").empty().append('<option>Select Region</option>');
+                        $("#id_city_out").empty().append('<option>Select City</option>');
+                        $.each(data, function(key, value){
+                            $("#id_state_out").append('<option value=" ' +key+' ">'+ value +'</option>');
+                          });
+
+                          $("#id_state_out").change(function(){
+                            console.log('works');
+                            $.ajax({
+                          url : "{% url 'city_out_ajax' %}",
+                              type : "POST",
+                              data : {
+                                  csrfmiddlewaretoken : "{{ csrf_token }}",
+                                  state_id : $("#id_state_out").val()
+                                },
+
+                              dataType : 'json',
+
+                              success : function(data){
+                            $("#id_city_out").empty();
+                                  $.each(data, function(key, value){
+                                    $("#id_city_out").append('<option value=" '+key+' ">'+ value +'</option>');
+                                  });
+                                  console.log(data);
+                            },
+                              error : function(){
+                                  console.log(arguments);
+                            }
+                          });
+                        });
+
+                    },
+                      error : function(){
+                        console.log(arguments);
+                    }
+                  });
+                });
+            });
+
+        </script>
+
+        <script type="text/javascript">
+            $(document).ready(function(){
+               $("#id_country_in").change(function(){
+                  console.log('works');
+                  $.ajax({
+                    url : "{% url 'state_in_ajax' %}",
+                    type : "POST",
+                    data : {
+                      csrfmiddlewaretoken : "{{ csrf_token }}",
+                      country_id : $("#id_country_in").val()
+                      },
+
+                    dataType : 'json',
+
+                    success : function(data){
+                        $("#id_state_in").empty().append('<option>Select Region</option>');
+                        $("#id_city_in").empty().append('<option>Select City</option>');
+                        $.each(data, function(key, value){
+                            $("#id_state_in").append('<option value=" ' +key+' ">'+ value +'</option>');
+                          });
+
+                          $("#id_state_in").change(function(){
+                            console.log('works');
+                            $.ajax({
+                          url : "{% url 'city_in_ajax' %}",
+                              type : "POST",
+                              data : {
+                                  csrfmiddlewaretoken : "{{ csrf_token }}",
+                                  state_id : $("#id_state_in").val()
+                                },
+
+                              dataType : 'json',
+
+                              success : function(data){
+                            $("#id_city_in").empty();
+                                  $.each(data, function(key, value){
+                                    $("#id_city_in").append('<option value=" '+key+' ">'+ value +'</option>');
+                                  });
+                                  console.log(data);
+                            },
+                              error : function(){
+                                  console.log(arguments);
+                            }
+                          });
+                        });
+
+                    },
+                      error : function(){
+                        console.log(arguments);
+                    }
+                  });
+                });
+            });
+
+
+        </script>
+	</head>
+	<body id="page1">
+		<div class="main">
+			<header>
+				<div class="wrapper">
+					<h1><a href="../home/" id="logo">AirLines</a></h1>
+					<nav id="top_nav">
+                        <section class="top-bar-section">
+                            <ul class="right">
+            {% if username %}
+                <li><a href="/auth/logout/">Log out ({{ username }})</a></li>
+            {% else %}
+                <li><a href="/auth/login/">Sign in</a></li>
+            {% endif %}
+                            </ul>
+                        </section>
+					</nav>
+				</div>
+				<nav>
+					<ul id="menu">
+                        <li><a href="../home/"><span><span>Home</span></span></a></li>
+                        <li id="menu_active"><a href="../book/"><span><span>Book</span></span></a></li>
+                        <li><a href="../articles/"><span><span>Comments</span></span></a></li>
+                        <li><a href="../about/"><span><span>About</span></span></a></li>
+                    </ul>
+				</nav>
+			</header>
+			<!-- / header -->
+			<!--content -->
+        <section id="content">
+            {% if username %}
+                <div class="booking">
+                    <form method="post" action="/book/send/" onsubmit="return validate_form(this)">
+                        {% csrf_token %}
+                        <table>
+                            <tr>
+                                <td class="td_button" colspan="2">
+                                    <h2>Order Tickets</h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <tr>
+                                <td class="td_user" colspan="2">First name:
+                                    {{ form.firstname }}
+                                </td>
+                                </tr>
+                                <tr>
+                                <td class="td_user" colspan="2">Last name:
+                                    {{ form.surname }}
+                                </td>
+
+                                </tr>
+                                <tr>
+                                <td class="td_user" colspan="2">Email:
+                                    {{ form.email }}
+                                </td>
+                                </tr>
+                            </tr>
+                            <tr>
+                                <td class="td_left"><b>From whence:</b>
+                                    <div>
+                                        <div>Country</div>
+                                        {{ form.country_out }}
+                                    </div>
+                                    <div>
+                                        <div>Region</div>
+                                        {{ form.state_out }}
+                                    </div>
+
+                                    <div>
+                                    <div>City</div>
+                                        {{ form.city_out }}
+                                    </div>
+                                </td>
+
+                                <td class="td_center"><b>To where:</b>
+                                    <div>
+                                        <div>Country</div>
+                                        {{ form.country_in }}
+                                    </div>
+                                    <div>
+                                        <div>Region</div>
+                                        {{ form.state_in }}
+                                    </div>
+
+                                    <div>
+                                    <div>City</div>
+                                        {{ form.city_in }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td_left">Leaving:<br>
+                                    {{ form.date_out }}
+                                </td>
+                                <td class="td_center">Return:<br>
+                                    {{ form.date_in }}
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="td_button" colspan="2">
+                                    <input class="ordersubmit" type="submit" name="submit" value="Order" />
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            {% else %}
+                <div class="no_book">
+                    <b>To order tickets need <a href="/auth/login/">Sign in</a></b>
+                </div>
+            {% endif %}
+        </section>
+			<!--content end-->
+			<!--footer -->
+			<footer>
+				<div class="wrapper">
+					<div class="links">Copyright &copy; <a href="#">A&N</a> All Rights Reserved<br>
+					Design by <a href="http://www.vk.com/gaponenko_anton">Anton</a> and <a href="http://www.vk.com/nazarskiy">Nazar</a></div>
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

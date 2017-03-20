@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block menu%}
+    <ul id="menu">
+        <li id="menu_active"><a href="../home/"><span><span>Home</span></span></a></li>
+        <li><a href="../book/"><span><span>Book</span></span></a></li>
+        <li><a href="../articles/"><span><span>Comments</span></span></a></li>
+        <li><a href="../about/"><span><span>About</span></span></a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+     <section id="home_content">
+            <div class="no_book">
+             <b>Enjoy our Airlines!<br><br><br>To order tickets go to <a href="/book/">Book</a></b>
+            </div>
+     </section>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block menu%}
+    <ul id="menu">
+        <li><a href="\home/"><span><span>Home</span></span></a></li>
+        <li><a href="\book/"><span><span>Book</span></span></a></li>
+        <li><a href="\articles/"><span><span>Comments</span></span></a></li>
+        <li><a href="\about/"><span><span>About</span></span></a></li>
+    </ul>
+{% endblock %}
+{% block content %}
+     <section id="content">
+    <div class="login">
+        <form action="/auth/login/" method="post" id="register">
+            {% csrf_token %}
+            <label for="username">Username: </label>
+            <input type="text" name="username" id="username">
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password">
+            {% if login_error %}
+                <label class="error">{{ login_error }}</label>
+            {% endif %}
+        <br><br>
+            <input class="button" type="submit" value="Log in">
+            <a href="/auth/register/"><div id="signup" class="button">Sign up</div></a>
+        </form>
+    </div>
+     </section>
+{% endblock %}

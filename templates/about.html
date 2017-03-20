@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block menu%}
+    <ul id="menu">
+        <li><a href="../home/"><span><span>Home</span></span></a></li>
+        <li><a href="../book/"><span><span>Book</span></span></a></li>
+        <li><a href="../articles/"><span><span>Comments</span></span></a></li>
+        <li id="menu_active"><a href="../about/"><span><span>About</span></span></a></li>
+    </ul>
+{% endblock %}
+{% block content %}
+     <section id="content">
+
+    <div class="article">
+        <h3>Airport information</h3>
+        <p>Welcome to our airport!</p>
+        <p>We welcome and farewell thousands of people everyday and have a variety of ser
+            vices and facilities available to make sure you enjoy your airport experience.</p>
+        <hr>
+        <p>A&N, Inc.<br>
+        522 SW 5th Avenue, Suite 200<br>
+        Portland, OR 97204 USA<br>
+        Tel: 503.274.0938<br>
+        Fax: 503.274.0939</p>
+
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.527613450727!2d-122.67905198490544!3d45.51958717910168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54950a05c140e2c5%3A0xfd422640ce31d3b!2sFlightStats%2C+Inc.!5e0!3m2!1sru!2sua!4v1452808151526" width="740" height="450" frameborder="0" style="border:1px solid black;" allowfullscreen></iframe>
+    </div>
+     </section>
+{% endblock %}
